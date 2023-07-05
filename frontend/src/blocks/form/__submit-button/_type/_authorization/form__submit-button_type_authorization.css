@@ -1,0 +1,16 @@
+.form__submit-button_type_authorization {
+  background:  #FFFFFF;
+  color: #000000;
+  justify-self: end;
+  margin-top: 180px;
+}
+
+.form__submit-button_type_authorization:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+@media screen and (max-width: 767.98px) {
+  .form__submit-button_type_authorization {
+    margin-top: 140px;
+  }
+}

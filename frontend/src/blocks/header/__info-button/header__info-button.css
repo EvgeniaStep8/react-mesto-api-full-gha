@@ -1,0 +1,19 @@
+.header__info-button {
+  display: none;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 24px;
+  height: 20px;
+  border: none;
+  background-color: inherit;
+  background: url('../../../images/opem-menu__button.svg') center no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 424.98px){
+  .header__info-button {
+    display: block;
+  }
+}

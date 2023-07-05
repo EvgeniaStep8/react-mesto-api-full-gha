@@ -1,0 +1,6 @@
+.popup__info-icon {
+  display: block;
+  max-width: 120px;
+  aspect-ratio: 1;
+  margin: 26px auto 32px;
+}

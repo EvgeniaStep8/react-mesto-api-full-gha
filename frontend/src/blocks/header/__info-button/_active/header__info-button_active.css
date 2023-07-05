@@ -1,0 +1,4 @@
+.header__info-button_active {
+  background: url('../../../../images/close-icon.svg') center no-repeat;
+  width: 20px;
+}
