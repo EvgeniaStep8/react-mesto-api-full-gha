@@ -1,4 +1,4 @@
-import { BASE_URL_AUTH } from "./constants";
+import { BASE_URL } from "./constants";
 
 class Auth {
   constructor(url) {
@@ -13,7 +13,7 @@ class Auth {
   }
 
   register(inputsValue) {
-    return fetch(`${BASE_URL_AUTH}/signup`, {
+    return fetch(`${this.url}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ class Auth {
   }
 
   authorization(inputsValues) {
-    return fetch(`${BASE_URL_AUTH}/signin`, {
+    return fetch(`${this.url}/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ class Auth {
   }
 
   checkToken(jwt) {
-    return fetch(`${BASE_URL_AUTH}/users/me`, {
+    return fetch(`${this.url}/users/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -43,6 +43,6 @@ class Auth {
   }
 }
 
-const auth = new Auth(BASE_URL_AUTH);
+const auth = new Auth(BASE_URL);
 
 export default auth;

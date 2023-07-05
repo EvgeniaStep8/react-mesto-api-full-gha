@@ -5,3 +5,16 @@
   padding: 100px 0 80px;
   margin: 0 auto;
 }
+
+@media screen and (max-width: 767.98px) {
+  .authorization {
+    width: 350px;
+    padding: 25px 22px;
+  }
+}
+
+@media screen and (max-width: 424.98px) {
+  .authorization {
+    max-width: 282px;
+  }
+}

@@ -1,9 +1,9 @@
-import { apiOptions } from "./constants";
+import { BASE_URL } from "./constants";
 
 class Api {
-  constructor({ baseUrl, authorization }) {
+  constructor(baseUrl) {
     this._baseUrl = baseUrl;
-    this._authorization = authorization;
+    this._authorization = `Bearer ${localStorage.getItem('token')}`;
   }
 
   _checkResopne(res) {
@@ -18,7 +18,7 @@ class Api {
       headers: {
         authorization: this._authorization,
       },
-    }).then((res) => this._checkResopne(res));
+    }).then(this._checkResopne);
   }
 
   getInitialCards() {
@@ -26,7 +26,7 @@ class Api {
       headers: {
         authorization: this._authorization,
       },
-    }).then((res) => this._checkResopne(res));
+    }).then(this._checkResopne);
   }
 
   patchUserInfo({ name, about }) {
@@ -40,7 +40,7 @@ class Api {
         name: name,
         about: about,
       }),
-    }).then((res) => this._checkResopne(res));
+    }).then(this._checkResopne);
   }
 
   patchUserAvatar({ avatar }) {
@@ -53,7 +53,7 @@ class Api {
       body: JSON.stringify({
         avatar: avatar,
       }),
-    }).then((res) => this._checkResopne(res));
+    }).then(this._checkResopne);
   }
 
   postCard(card) {
@@ -64,7 +64,7 @@ class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(card),
-    }).then((res) => this._checkResopne(res));
+    }).then(this._checkResopne);
   }
 
   deleteCard(cardId) {
@@ -73,7 +73,7 @@ class Api {
       headers: {
         authorization: this._authorization,
       },
-    }).then((res) => this._checkResopne(res));
+    }).then(this._checkResopne)
   }
 
   changeCardLikes(cardId, isCardLiked) {
@@ -83,17 +83,17 @@ class Api {
         headers: {
           authorization: this._authorization,
         },
-      }).then((res) => this._checkResopne(res));
+      }).then(this._checkResopne);
     }
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {
         authorization: this._authorization,
       },
-    }).then((res) => this._checkResopne(res));
+    }).then(this._checkResopne);
   }
 }
 
-const api = new Api(apiOptions);
+const api = new Api(BASE_URL);
 
 export default api;

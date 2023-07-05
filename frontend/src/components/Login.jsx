@@ -47,7 +47,7 @@ const Login = ({ handleLoginSubmit, isPending, setPending }) => {
           })}
         />
         <span className="form__input-error">{errors?.password?.message}</span>
-				<button className="form__submit-button form__submit-button_type_authorization" disabled={!isValid} >
+				<button className="authorization__button" disabled={!isValid} >
 				  {isPending ? "Войти..." : "Войти"}
 				</button>
 			</form>

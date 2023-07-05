@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Header from "./Header";
@@ -15,7 +15,6 @@ import InfoTooltip from "./InfoTooltip";
 import api from "../utils/api";
 import auth from "../utils/auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-
 
 const App = () => {
   const [isOpen, setOpen] = useState({
@@ -40,34 +39,36 @@ const App = () => {
   });
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isRegisterSuccess, setRegisterSuccess] = useState(false);
+  const [isSuccessAuthorization, setSuccessAuthorization] = useState(false);
   const [isPending, setPending] = useState(false);
   const [email, setEmail] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setCurrentUser(userData);
         setCards(cards);
       })
       .catch((err) => console.log(err));
-  }, []);
+    }
+  }, [loggedIn]);
 
-  const handleEditAvatarClick = useCallback(() => {
+  const handleEditAvatarClick = () => {
     setOpen((state) => ({ ...state, editAvatarPopup: true }));
-  }, []);
+  };
 
-  const handleAddCardClick = useCallback(() => {
+  const handleAddCardClick = () => {
     setOpen((state) => ({ ...state, addCardPopup: true }));
-  }, []);
+  };
 
-  const handleEditProfileClick = useCallback(() => {
+  const handleEditProfileClick = () => {
     setOpen((state) => ({ ...state, editProfilePopup: true }));
-  }, []);
+  };
 
-  const closeAllPopup = useCallback(() => {
+  const closeAllPopup = () => {
     setOpen({
       editAvatarPopup: false,
       addCardPopup: false,
@@ -76,77 +77,65 @@ const App = () => {
       infoTooltipPopup: false,
     });
     setSelectedCard({ name: "", link: "", isSelected: false });
-  }, []);
+  };
 
-  const handleUpdateUser = useCallback(
-    (userInfo) => {
-      api
-        .patchUserInfo(userInfo)
-        .then((user) => {
-          setCurrentUser(user);
-          closeAllPopup();
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setPending(false));
-    },
-    [closeAllPopup]
-  );
+  const handleUpdateUser = (userInfo) => {
+    api
+      .patchUserInfo(userInfo)
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setPending(false));
+  };
 
-  const handleUpdateAvatar = useCallback(
-    (userAvatar) => {
-      api
-        .patchUserAvatar(userAvatar)
-        .then((user) => {
-          setCurrentUser(user);
-          closeAllPopup();
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setPending(false));
-    },
-    [closeAllPopup]
-  );
+  const handleUpdateAvatar = (userAvatar) => {
+    api
+      .patchUserAvatar(userAvatar)
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setPending(false));
+  };
 
-  const handlePlaceSubmit = useCallback(
-    ({ title: name, link }) => {
-      api
-        .postCard({ name, link })
-        .then((newCard) => {
-          setCards([newCard, ...cards]);
-          closeAllPopup();
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setPending(false));
-    },
-    [closeAllPopup, cards]
-  );
+  const handlePlaceSubmit = ({ title: name, link }) => {
+    api
+      .postCard({ name, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setPending(false));
+  };
 
-  const handleCardClick = useCallback((card) => {
+  const handleCardClick = (card) => {
     setSelectedCard(card);
-  }, []);
+  };
 
-  const handleLikeClick = useCallback(
-    (card) => {
-      const isLiked = card.likes.some((like) => like._id === currentUser._id);
-      api
-        .changeCardLikes(card._id, isLiked)
-        .then((newCard) => {
-          setCards((state) =>
-            state.map((cardItem) =>
-              card._id === cardItem._id ? newCard : cardItem
-            )
-          );
-        })
-        .catch((err) => console.log(err));
-    },
-    [currentUser]
-  );
+  const handleLikeClick = (card) => {
+    const isLiked = card.likes.some((like) => like === currentUser._id);
+    api
+      .changeCardLikes(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((cardItem) =>
+            card._id === cardItem._id ? newCard : cardItem
+          )
+        );
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const handleCardDelete = useCallback((card) => {
+  const handleCardDelete = (card) => {
     setOpen((state) => ({ ...state, confirmPopup: true }));
     setConfirmedCardForDelete(card);
-  }, []);
+  };
 
-  const handleConfirm = useCallback(() => {
+  const handleConfirm = () => {
     api
       .deleteCard(confirmedCardForDelete._id)
       .then(() =>
@@ -156,61 +145,70 @@ const App = () => {
           )
         )
       )
-      .catch((err) => console.log(err));
-  }, [confirmedCardForDelete]);
+      .catch((err) => console.log(err))
+      .finally(() => closeAllPopup());
+  };
 
   const handleLoginSubmit = (inputsValues) => {
-    auth.authorization(inputsValues)
+    auth
+      .authorization(inputsValues)
       .then((data) => {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("token", data.token);
         setLoggedIn(true);
         setEmail(inputsValues.email);
-        navigate('/', {replace: true});
+        navigate("/", { replace: true });
       })
       .catch((err) => {
         console.log(err);
+        setSuccessAuthorization(false);
         setOpen((state) => ({ ...state, infoTooltipPopup: true }));
       })
       .finally(() => setPending(false));
-  }
+  };
 
   const handleRegisterSubmit = (inputsValues) => {
-    auth.register(inputsValues)
+    auth
+      .register(inputsValues)
       .then(() => {
-        navigate('/signin', {replace: true});
-        setRegisterSuccess(true);
+        navigate("/signin", { replace: true });
+        setSuccessAuthorization(true);
       })
       .catch((err) => console.log(err))
       .finally(() => {
         setOpen((state) => ({ ...state, infoTooltipPopup: true }));
         setPending(false);
-      })
-  }
+      });
+  };
 
   const handleLogoutClick = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     navigate("/signin");
     setLoggedIn(false);
-  }
+  };
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      const jwt = localStorage.getItem('token');
-      auth.checkToken(jwt)
-        .then(({ data }) => {
+    if (localStorage.getItem("token")) {
+      const jwt = localStorage.getItem("token");
+      auth
+        .checkToken(jwt)
+        .then((user) => {
           setLoggedIn(true);
-          setEmail(data.email);
-          navigate('/', {replace: true});
+          setEmail(user.email);
+          navigate("/", { replace: true });
         })
         .catch((err) => console.log(err));
-      }
-  }, [navigate]);
-
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
-        <Header loggedIn={loggedIn} email={email} onLogoutClick={handleLogoutClick} />
+        <Header
+          loggedIn={loggedIn}
+          email={email}
+          onLogoutClick={handleLogoutClick}
+        />
         <Routes>
           <Route
             path="/"
@@ -229,20 +227,26 @@ const App = () => {
               />
             }
           />
-          <Route path="/signup" element={
-            <Register
-              handleRegisterSubmit={handleRegisterSubmit}
-              isPending={isPending}
-              setPending={setPending}
-            />
-          } />
-          <Route path="/signin" element={
-            <Login
-              handleLoginSubmit={handleLoginSubmit}
-              isPending={isPending}
-              setPending={setPending}
-            />
-          } />
+          <Route
+            path="/signup"
+            element={
+              <Register
+                handleRegisterSubmit={handleRegisterSubmit}
+                isPending={isPending}
+                setPending={setPending}
+              />
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <Login
+                handleLoginSubmit={handleLoginSubmit}
+                isPending={isPending}
+                setPending={setPending}
+              />
+            }
+          />
         </Routes>
         <Footer loggedIn={loggedIn} />
         <EditProfilePopup
@@ -275,7 +279,7 @@ const App = () => {
         <InfoTooltip
           isOpen={isOpen.infoTooltipPopup}
           onClose={closeAllPopup}
-          isRegisterSuccess={isRegisterSuccess}
+          isRegisterSuccess={isSuccessAuthorization}
         />
       </div>
     </CurrentUserContext.Provider>

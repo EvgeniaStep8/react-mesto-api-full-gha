@@ -1,9 +1,9 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import logo from "../images/header__logo.svg";
 import { useLocation, Link } from "react-router-dom";
 
-const Header = memo(({ loggedIn, email, onLogoutClick }) => {
-  let location = useLocation();
+const Header = ({ loggedIn, email, onLogoutClick }) => {
+  const location = useLocation();
   const linkText = location.pathname === "/signup" ? "Войти" : "Регистрация";
   const linkPath = location.pathname === "/signup" ? "/signin" : "/signup";
   const [isInfoVisible, setInfoVisible] = useState(false);
@@ -38,6 +38,6 @@ const Header = memo(({ loggedIn, email, onLogoutClick }) => {
       )}
     </header>
   );
-});
+};
 
 export default Header;

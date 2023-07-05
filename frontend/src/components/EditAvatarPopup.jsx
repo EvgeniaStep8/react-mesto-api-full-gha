@@ -1,8 +1,8 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PopupWithForm from "./PopupWithForm";
 
-const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar, isPending, setPending }) => {
+const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isPending, setPending }) => {
   const {
     register,
     formState: {
@@ -42,7 +42,8 @@ const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar, isPending, setP
         {...register("avatar", {
           required: "Вы пропустили это поле",
           pattern: {
-            value: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+            // eslint-disable-next-line no-useless-escape
+            value: /https*:\/\/(www.)*[a-z0-9\-\.]{1,}\.[a-z]{2,3}[a-z0-9\-\._~\:\/\?\#\[\]@\!\$&'\(\)\*\+,;\=]*/,
             message: "Введите url"
           },
         })}
@@ -51,6 +52,6 @@ const EditAvatarPopup = memo(({ isOpen, onClose, onUpdateAvatar, isPending, setP
       <span className="form__input-error">{errors?.avatar?.message}</span>
     </PopupWithForm>
   );
-});
+};
 
 export default EditAvatarPopup;

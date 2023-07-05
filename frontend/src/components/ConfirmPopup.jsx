@@ -1,14 +1,13 @@
-import React, { memo } from "react";
+import React from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
 import handleOverlayClick from "../utils/utils";
 
-const ConfirmPopup = memo(({ isOpen, onClose, onConfirm }) => {
+const ConfirmPopup = ({ isOpen, onClose, onConfirm }) => {
   const classNamePopup = `popup ${isOpen ? "popup_opened" : ""}`;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     onConfirm();
-    onClose();
   };
 
   useEscapeKeydown(onClose, isOpen);
@@ -40,6 +39,6 @@ const ConfirmPopup = memo(({ isOpen, onClose, onConfirm }) => {
       </div>
     </div>
   );
-});
+};
 
 export default ConfirmPopup;

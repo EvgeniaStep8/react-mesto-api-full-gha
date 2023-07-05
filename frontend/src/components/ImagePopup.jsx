@@ -1,8 +1,8 @@
-import React, { memo } from "react";
+import React from "react";
 import useEscapeKeydown from "../hooks/useEscapeKeydown";
 import handleOverlayClick from "../utils/utils";
 
-const ImagePopup = memo(({ card, onClose }) => {
+const ImagePopup = ({ card, onClose }) => {
   const isOpen = card.isSelected;
   const classNamePopup =   `popup popup_overlay_dark ${isOpen ? "popup_opened" : ""}`;
 
@@ -28,6 +28,6 @@ const ImagePopup = memo(({ card, onClose }) => {
       </div>
     </div>
   );
-});
+};
 
 export default ImagePopup;

@@ -36,7 +36,7 @@ const Register = ({ handleRegisterSubmit, isPending, setPending }) => {
           {...register("email", {
             required: "Вы пропустили это поле",
             pattern: {
-              value: /@"(@)(.+)$/,
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
               message: "Введите email"
             }
           })}
@@ -53,10 +53,14 @@ const Register = ({ handleRegisterSubmit, isPending, setPending }) => {
               value: /[a-z][0-9]/,
               message: "Пароль должен содержать латинские символы и хотя бы одну цифру",
             },
+            minLength: {
+              value: 5,
+              message: "Пароль должен содержать не менее 8 символов"
+            }
           })}
         />
         <span className="form__input-error">{errors?.password?.message}</span>
-        <button className="form__submit-button form__submit-button_type_authorization" disabled={!isValid} >
+        <button className="authorization__button" disabled={!isValid} >
           {isPending ? "Зарегистрироваться..." : "Зарегистрироваться"}
         </button>
       </form>

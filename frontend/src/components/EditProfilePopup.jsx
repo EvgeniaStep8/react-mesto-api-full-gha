@@ -1,9 +1,9 @@
-import React, { memo, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser, isPending, setPending }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isPending, setPending }) => {
   const currentUser = useContext(CurrentUserContext);
 
   const {
@@ -44,15 +44,12 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser, isPending, setPe
         type="text"
         className="form__input form__input_type_name"
         placeholder="Имя"
+        maxLength={40}
         {...register("name", {
           required: "Вы пропустили это поле",
           minLength: {
             value: 2,
             message: "Текст должен быть не короче 2 симвоволов",
-          },
-          maxLength: {
-            value: 40,
-            message: "Текст должен быть не длиннее 30 симвоволов"
           },
         })}
         
@@ -63,21 +60,18 @@ const EditProfilePopup = memo(({ isOpen, onClose, onUpdateUser, isPending, setPe
         type="text"
         className="form__input form__input_type_job"
         placeholder="О себе"
+        maxLength={200}
         {...register("about", {
           required: "Вы пропустили это поле",
           minLength: {
             value: 2,
             message: "Текст должен быть не короче 2 симвоволов",
           },
-          maxLength: {
-            value: 200,
-            message: "Текст должен быть не длиннее 30 симвоволов"
-          },
         })}
       />
       <span className="form__input-error">{errors?.about?.message}</span>
     </PopupWithForm>
   );
-});
+};
 
 export default EditProfilePopup;

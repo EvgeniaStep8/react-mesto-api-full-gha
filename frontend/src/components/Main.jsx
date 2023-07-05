@@ -49,8 +49,8 @@ const Main = ({
           <Card
             key={card._id}
             card={card}
-            isOwnerCard={card.owner._id === currentUser._id}
-            isLiked={card.likes.some((like) => like._id === currentUser._id)}
+            isOwnerCard={card.owner === currentUser._id}
+            isLiked={card.likes.some((like) => like === currentUser._id)}
             onCardClick={onCardClick}
             onCardLikeClick={onCardLikeClick}
             onCardDelete={onCardDelete}
