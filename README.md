@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.79.148
+IP 51.250.79.148
 
 Frontend https://mesto.evgeniast.nomoreparties.sbs
 
