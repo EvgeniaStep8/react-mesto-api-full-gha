@@ -1,3 +1,3 @@
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://api.mesto.evgeniast.nomoreparties.sbs';
 
   export { BASE_URL};

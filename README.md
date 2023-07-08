@@ -5,12 +5,12 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/...
+Адрес репозитория: https://github.com/EvgeniaStep8/react-mesto-api-full-gha
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 51.250.79.148
 
-Frontend https://...
+Frontend https://mesto.evgeniast.nomoreparties.sbs
 
-Backend https://...
+Backend https://api.mesto.evgeniast.nomoreparties.sbs
