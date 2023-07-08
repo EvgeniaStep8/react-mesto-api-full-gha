@@ -50,7 +50,7 @@ const App = () => {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setCurrentUser(userData);
-        setCards(cards);
+        setCards(cards.reverse());
       })
       .catch((err) => console.log(err));
     }
