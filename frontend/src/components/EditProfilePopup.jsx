@@ -44,7 +44,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isPending, setPending
         type="text"
         className="form__input form__input_type_name"
         placeholder="Имя"
-        maxLength={40}
+        maxLength={30}
         {...register("name", {
           required: "Вы пропустили это поле",
           minLength: {
@@ -60,7 +60,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isPending, setPending
         type="text"
         className="form__input form__input_type_job"
         placeholder="О себе"
-        maxLength={200}
+        maxLength={30}
         {...register("about", {
           required: "Вы пропустили это поле",
           minLength: {
