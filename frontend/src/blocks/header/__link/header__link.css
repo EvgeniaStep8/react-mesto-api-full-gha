@@ -11,3 +11,11 @@
 		line-height: 17px;
 	}
 }
+
+@media screen and (max-width: 424.98px) {
+	.header__link {
+		align-self: end;
+    margin: 20px 20px 0 0;
+	}
+}
+
