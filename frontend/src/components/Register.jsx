@@ -54,7 +54,7 @@ const Register = ({ handleRegisterSubmit, isPending, setPending }) => {
               message: "Пароль должен содержать латинские символы и хотя бы одну цифру",
             },
             minLength: {
-              value: 5,
+              value: 8,
               message: "Пароль должен содержать не менее 8 символов"
             }
           })}
