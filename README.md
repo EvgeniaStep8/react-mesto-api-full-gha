@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP 51.250.79.148
+IP 158.160.108.125
 
-Frontend https://mesto.evgeniast.nomoreparties.sbs
+Frontend https://mesto-app.nomoredomains.work
 
-Backend https://api.mesto.evgeniast.nomoreparties.sbs
+Backend https://api.mesto-app.nomoredomains.work
