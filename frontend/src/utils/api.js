@@ -3,7 +3,6 @@ import { BASE_URL } from "./constants";
 class Api {
   constructor(baseUrl) {
     this._baseUrl = baseUrl;
-    this._authorization = `Bearer ${localStorage.getItem('token')}`;
   }
 
   _checkResopne(res) {
@@ -16,7 +15,7 @@ class Api {
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(this._checkResopne);
   }
@@ -24,7 +23,7 @@ class Api {
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(this._checkResopne);
   }
@@ -33,7 +32,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -47,7 +46,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -60,7 +59,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(card),
@@ -71,7 +70,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(this._checkResopne)
   }
@@ -81,14 +80,14 @@ class Api {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: "PUT",
         headers: {
-          authorization: this._authorization,
+          authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       }).then(this._checkResopne);
     }
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(this._checkResopne);
   }
