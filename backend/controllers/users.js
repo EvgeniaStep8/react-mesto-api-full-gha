@@ -48,6 +48,8 @@ const createUser = (req, res, next) => {
         next(new BadRequestError('Переданы некорректные данные'));
       } else if (err.message.includes('duplicate key error')) {
         next(new ConflictError('Пользователь с переданным email уже существует'));
+      } else {
+        next(err);
       }
     });
 };

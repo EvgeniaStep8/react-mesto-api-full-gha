@@ -29,10 +29,11 @@ const deleteCard = (req, res, next) => {
     .then((card) => {
       if (card.owner.equals(req.user._id)) {
         card.deleteOne();
-        return res.send(card);
+        return card;
       }
       throw new ForbiddenError('Удалить карточку может только её владелец');
     })
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.message.includes('Cast to ObjectId failed')) {
         next(new BadRequestError('Передан некорректный id'));
